@@ -28,4 +28,5 @@ class Entry(models.Model):
 
     def __str__(self):
         """Return a simple string representation of the entry."""
-        return f"{self.text[:50]}..."  # Just the first 50 characters.
+        # Return up to the first 50 characters of the text attribute.
+        return f"{self.text[:50]}..." if len(self.text) > 50 else self.text
