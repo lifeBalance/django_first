@@ -10,4 +10,6 @@ urlpatterns = [
     # 2. The module.function with the controller (views.py, index function)
     # 3. A handy name that we can use in links to this route.
     path('', views.index, name='index'),
+    # Topics page (list with all topics).
+    path('topics/', views.topics, name='topics'),
 ]

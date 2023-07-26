@@ -1,7 +1,8 @@
 <p>
-    <!-- Below we're using a templeate tag to generate the URL for the link.
+    <!-- Below we're using a template tag to generate the URL for the link.
         learning_log_app is the namespace, and index the url alias. -->
-    <a href="{% url 'learning_log_app:index' %}">Learning Log</a>
+    <a href="{% url 'learning_log_app:index' %}">Learning Log</a> -
+    <a href="{% url 'learning_log_app:topics' %}">Topics</a>
 </p>
 
 <!-- The information between the blocks below is defined in the child templates. -->
