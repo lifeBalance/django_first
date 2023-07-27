@@ -5,9 +5,13 @@
 <h1>Topics</h1>
 <ul>
     {% for topic in topics %}
-        <li>{{ topic.text }}</li>
+    <li>
+        <a href="{% url 'learning_log_app:topic' topic.id %}">
+            {{ topic.text }}
+        </a>
+    </li>
     {% empty %}
-        <li>No topics have been added yet.</li>
+    <li>No topics have been added yet.</li>
     {% endfor %}
 </ul>
 {% endblock content %}

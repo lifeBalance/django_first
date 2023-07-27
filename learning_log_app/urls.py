@@ -12,4 +12,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     # Topics page (list with all topics).
     path('topics/', views.topics, name='topics'),
+    # Individual Topic pages (pages that focus on a single topic).
+    path('topics/<int:topic_id>/', views.topic, name='topic'),
 ]
