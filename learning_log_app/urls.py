@@ -20,4 +20,6 @@ urlpatterns = [
     # 'new_entry/<int:topic_id>/', Django sends the requested topic number as
     # an integer to the new_entry view function, in a variable named 'topic_id'.
     path('new_entry/<int:topic_id>/', views.new_entry, name='new_entry'),
+    # Page for editing and entry.
+    path('edit_entry/<int:entry_id>/', views.edit_entry, name='edit_entry'),
 ]

@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 
-from .models import Topic
+from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
 
 # Create your views here (views roughly correspond to controllers in MVC).
@@ -72,3 +72,20 @@ def new_entry(request, topic_id):
     # If we didn't return in the statement above, display a blank or invalid form.
     context = {'topic': topic, 'form': form}
     return render(request, 'learning_log_app/new_entry.html', context)
+
+def edit_entry(request, entry_id):
+    """Edit an existing entry."""
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic # Store the topic of the entry in 'topic'
+
+    if request.method != 'POST':
+        # For GET requests, pre-fill the form with the current entry.
+        form = EntryForm(instance=entry)
+    else:
+        # Process the data submitted in the POST request.
+        form = EntryForm(instance=entry, data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('learning_log_app:topic', topic_id=topic.id)
+    context = {'entry': entry, 'topic': topic, 'form': form}
+    return render(request, 'learning_log_app/edit_entry.html', context)
