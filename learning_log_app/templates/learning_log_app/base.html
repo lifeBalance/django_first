@@ -14,3 +14,12 @@
 
 <!-- The information between the blocks below is defined in the child templates. -->
 {% block content %}{% endblock content %}
+
+{% if user.is_authenticated %}
+<hr />
+
+<form action="{% url 'accounts_app:logout' %}" method="post">
+  {% csrf_token %}
+  <button type="submit">Log out</button>
+</form>
+{% endif %}
