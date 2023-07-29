@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+
 from .models import Topic
+from .forms import TopicForm
 
 # Create your views here (views roughly correspond to controllers in MVC).
 
@@ -24,3 +26,21 @@ def topic(request, topic_id):
     # Build a context dictionary with the topic and its list of entries.
     context = {'topic': topic, 'entries': entries}
     return render(request, 'learning_log_app/topic.html', context)
+
+def new_topic(request):
+    """Add a new topic."""
+    if request.method != 'POST':
+        # For non-POST request we return  a blank form.
+        form = TopicForm()
+    else:
+        # Create the form passing the body of the POST request in the const.
+        form = TopicForm(data=request.POST)
+        # Validate that all fields are present, and that they conform to
+        # the attributes of the Topic model (text max. length 200 chars.)
+        if form.is_valid():
+            form.save()
+            return redirect('learning_log_app:topics')
+    
+    # If we didn't return in the else > if clause, display a blank or invalid form.
+    context = {'form': form}
+    return render(request, 'learning_log_app/new_topic.html', context)
