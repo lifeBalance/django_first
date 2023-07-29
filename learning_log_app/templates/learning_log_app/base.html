@@ -1,8 +1,15 @@
 <p>
-    <!-- Below we're using a template tag to generate the URL for the link.
+  <!-- Below we're using a template tag to generate the URL for the link.
         learning_log_app is the namespace, and index the url alias. -->
-    <a href="{% url 'learning_log_app:index' %}">Learning Log</a> -
-    <a href="{% url 'learning_log_app:topics' %}">Topics</a>
+  <a href="{% url 'learning_log_app:index' %}">Learning Log</a> -
+  <a href="{% url 'learning_log_app:topics' %}">Topics</a>
+  <!-- In Django's authentication system the user object is automatically 
+  available in all templates. The is_authenticated attribute is always present. -->
+  {% if user.is_authenticated %}
+    Hello, {{ user.username }}.
+  {% else %}
+    <a href="{% url 'accounts_app:login' %}">Log in</a>
+  {% endif %}
 </p>
 
 <!-- The information between the blocks below is defined in the child templates. -->
