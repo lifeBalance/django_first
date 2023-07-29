@@ -1,0 +1,18 @@
+{% extends 'learning_log_app/base.html' %}
+
+{% block content %}
+  <p>
+    <!-- show the topic at the top, so the user can see where is adding the
+    entry. It's also a link to the topic page with the list of entries. -->
+    <a href="{% url 'learning_log_app:topic' topic.id %}">{{ topic }}</a>
+  </p>
+
+  <p>Add a new entry:</p>
+
+  <form action="{% url 'learning_log_app:new_entry' topic.id %}" method="post">
+    <!-- The template tab below is to prevent cross-site request forgery. -->
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button type="submit">Add entry</button>
+  </form>
+{% endblock content %}
