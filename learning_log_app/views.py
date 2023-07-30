@@ -23,6 +23,7 @@ def topics(request):
     return render(request, "learning_log_app/topics.html", context)
 
 
+@login_required
 def topic(request, topic_id):
     """Show a single topic and all its entries."""
     # Query to select a topic using the value captured in the url (/<int:topic_id>/)
@@ -34,6 +35,7 @@ def topic(request, topic_id):
     return render(request, "learning_log_app/topic.html", context)
 
 
+@login_required
 def new_topic(request):
     """Add a new topic."""
     if request.method != "POST":
@@ -53,6 +55,7 @@ def new_topic(request):
     return render(request, "learning_log_app/new_topic.html", context)
 
 
+@login_required
 def new_entry(request, topic_id):
     """Add a new entry for a particular topic."""
      # Fetch topic with a given id from the collection of Topics.
@@ -76,6 +79,7 @@ def new_entry(request, topic_id):
     context = {'topic': topic, 'form': form}
     return render(request, 'learning_log_app/new_entry.html', context)
 
+@login_required
 def edit_entry(request, entry_id):
     """Edit an existing entry."""
     entry = Entry.objects.get(id=entry_id)
