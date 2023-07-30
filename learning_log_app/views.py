@@ -1,4 +1,5 @@
 from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
 
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
@@ -11,6 +12,8 @@ def index(request):
     return render(request, "learning_log_app/index.html")
 
 
+# If the user is not logged in, it's redirected to the login page.
+@login_required
 def topics(request):
     """Show all topics."""
     # Pull the list of topics from the model.
