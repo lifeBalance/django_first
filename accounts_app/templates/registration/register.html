@@ -1,0 +1,14 @@
+{% extends 'learning_log_app/base.html' %}
+<!-- A template in one app can inherit from a template in another app. -->
+
+{% block content %}
+
+<form action="{% url 'accounts_app:register' %}" method="post">
+  <!-- The template tab below is to prevent cross-site request forgery. -->
+  {% csrf_token %}
+  {{ form.as_div }}
+  <button type="submit">Register</button>
+  <!-- user: Robert, pwd: DaDudeRobert -->
+</form>
+
+{% endblock content %}
