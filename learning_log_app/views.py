@@ -29,9 +29,10 @@ def topic(request, topic_id):
     """Show a single topic and all its entries."""
     # Query to select a topic using the value captured in the url (/<int:topic_id>/)
     topic = Topic.objects.get(id=topic_id)
+
     # Make sure the topic belongs to the current user.
-    if topic.owner != request.user:
-        raise Http404
+    _check_topic_owner(request, topic)
+
     # Query to get all the entries in the topic, ordered by date.
     entries = topic.entry_set.order_by("-date_added")
     # Build a context dictionary with the topic and its list of entries.
@@ -92,8 +93,7 @@ def edit_entry(request, entry_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic # Store the topic of the entry in 'topic'
     # Protect the edit_entry page so that only owner can edit her topics.
-    if topic.owner != request.user:
-        raise Http404
+    _check_topic_owner(request, topic)
 
     if request.method != 'POST':
         # For GET requests, pre-fill the form with the current entry.
@@ -106,3 +106,7 @@ def edit_entry(request, entry_id):
             return redirect('learning_log_app:topic', topic_id=topic.id)
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_log_app/edit_entry.html', context)
+
+def _check_topic_owner(request, topic):
+    if topic.owner != request.user:
+        raise Http404
