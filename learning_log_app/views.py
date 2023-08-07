@@ -70,6 +70,9 @@ def new_entry(request, topic_id):
     topic = Topic.objects.get(id=topic_id)
 
     if request.method != 'POST':
+        # Show 404 if user tries to even access the empty form to add an entry
+        # to other user's topics.
+        # _check_topic_owner(request, topic)
         # For non-POST requests instantiate a blank form.
         form = EntryForm()
     else:
@@ -80,9 +83,12 @@ def new_entry(request, topic_id):
             new_entry = form.save(commit=False)
             # Assign the topic to the topic attribute of this object.
             new_entry.topic = topic
-            # Now we can save it to the DB.
-            new_entry.save()
-            return redirect('learning_log_app:topic', topic_id=topic_id)
+            # Save it to the DB, but only if the user owns the topic.
+            if topic.owner == request.user:
+                new_entry.save()
+                return redirect('learning_log_app:topic', topic_id=topic_id)
+            else:
+                return redirect('learning_log_app:index')
     # If we didn't return in the statement above, display a blank or invalid form.
     context = {'topic': topic, 'form': form}
     return render(request, 'learning_log_app/new_entry.html', context)
